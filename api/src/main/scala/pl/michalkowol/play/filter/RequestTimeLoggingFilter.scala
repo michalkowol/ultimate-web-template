@@ -1,0 +1,32 @@
+package pl.michalkowol.play.filter
+
+import play.api.Logger
+import play.api.http.HttpErrorHandler
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
+import play.api.mvc._
+
+import scala.concurrent.Future
+import scala.util.control.NonFatal
+
+class RequestTimeLoggingFilter(errorHandler: HttpErrorHandler) extends Filter {
+
+  private val log = Logger("RequestTime")
+
+  def apply(nextFilter: RequestHeader => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
+    val startTime = System.currentTimeMillis
+
+    val result = try {
+      nextFilter(requestHeader).recoverWith {
+        case NonFatal(e) => errorHandler.onServerError(requestHeader, e)
+      }
+    } catch {
+      case NonFatal(e) => errorHandler.onServerError(requestHeader, e)
+    }
+    result.map { result =>
+      val endTime = System.currentTimeMillis
+      val requestTime = endTime - startTime
+      log.info(s"${requestHeader.method} ${requestHeader.uri} took ${requestTime}ms and returned ${result.header.status}")
+      result.withHeaders("X-Request-Time" -> requestTime.toString)
+    }
+  }
+}

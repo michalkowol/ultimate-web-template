@@ -1,0 +1,10 @@
+GET         /                                   pl.michalkowol.controller.Application.index
+GET         /test                               pl.michalkowol.controller.Application.test
+GET         /login/:user                        pl.michalkowol.controller.Application.login(user)
+GET         /logout                             pl.michalkowol.controller.Application.logout
+GET         /weather/:country/:city             pl.michalkowol.controller.Weather.weatherInCity(country, city)
+GET         /people                             pl.michalkowol.controller.People.all
+POST        /people                             pl.michalkowol.controller.People.create
+GET         /posts                              pl.michalkowol.controller.Blog.posts
+
+GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
