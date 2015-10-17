@@ -15,7 +15,7 @@ class ApplicationSpec extends Spec {
       val home = route(FakeRequest(GET, "/")).get
 
       status(home) shouldBe OK
-      contentType(home).value shouldBe "text/html"
+      contentType(home).value shouldBe "text/plain"
       contentAsString(home) should include("Your new application is ready.")
     }
   }
