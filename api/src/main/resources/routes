@@ -6,5 +6,6 @@ GET         /weather/:country/:city             pl.michalkowol.controller.Weathe
 GET         /people                             pl.michalkowol.controller.People.all
 POST        /people                             pl.michalkowol.controller.People.create
 GET         /posts                              pl.michalkowol.controller.Blog.posts
+GET         /api/movies                         pl.michalkowol.controller.Movies.all
 
 GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)

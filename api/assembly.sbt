@@ -6,3 +6,4 @@ assemblyMergeStrategy in assembly := {
 }
 
 test in assembly := {}
+//unmanagedResourceDirectories in Compile += baseDirectory.value / "../ui/dist/"
