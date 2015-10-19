@@ -14,14 +14,21 @@ libraryDependencies += jdbc
 libraryDependencies += ws
 libraryDependencies += filters
 
+val jacksonVersion = "2.6.1"
+
 libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.10"
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
-libraryDependencies += "com.paypal" %% "cascade-common" % "0.5.1"
-libraryDependencies += "com.paypal" %% "cascade-json" % "0.5.1"
+libraryDependencies += "com.paypal" %% "cascade-common" % "0.5.1" excludeAll (ExclusionRule("com.fasterxml.jackson.dataformat"), ExclusionRule("com.fasterxml.jackson.core"), ExclusionRule("com.fasterxml.jackson.module"), ExclusionRule("com.fasterxml.jackson.datatype"))
+libraryDependencies += "com.paypal" %% "cascade-json" % "0.5.1" excludeAll (ExclusionRule("com.fasterxml.jackson.dataformat"), ExclusionRule("com.fasterxml.jackson.core"), ExclusionRule("com.fasterxml.jackson.module"), ExclusionRule("com.fasterxml.jackson.datatype"))
 libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.3"
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0"
 libraryDependencies += "org.flywaydb" % "flyway-core" % "3.2.1"
 libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1204-jdbc42" exclude("org.slf4j", "slf4j-simple")
+libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
+libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
+libraryDependencies += "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % jacksonVersion
+libraryDependencies += "com.fasterxml.jackson.dataformat" % "jackson-dataformat-xml" % jacksonVersion
+libraryDependencies += "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % jacksonVersion
 
 libraryDependencies += "org.scalatestplus" %% "play" % "1.4.0-M4" % "test"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.5" % "test"
