@@ -7,5 +7,7 @@ GET         /people                             pl.michalkowol.controller.People
 POST        /people                             pl.michalkowol.controller.People.create
 GET         /posts                              pl.michalkowol.controller.Blog.posts
 GET         /api/movies                         pl.michalkowol.controller.Movies.all
+GET         /api/movies/:id                     pl.michalkowol.controller.Movies.get(id: Long)
+POST        /api/movies                         pl.michalkowol.controller.Movies.create
 
 GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
