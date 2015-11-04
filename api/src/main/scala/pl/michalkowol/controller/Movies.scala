@@ -4,6 +4,7 @@ import com.paypal.cascade.common.option._
 import pl.michalkowol.common.json.jackson._
 import pl.michalkowol.controller.Movies.Movie
 import pl.michalkowol.play.JacksonParser._
+import pl.michalkowol.play.render._
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.{Action, Controller}
 
@@ -20,9 +21,9 @@ object Movies {
 
 class Movies extends Controller {
 
-  private var movies = Seq(
+  private var movies = Array(
     Movie("Interstellar", "SciFi", forChildren = true, 1),
-    Movie("Titanic", "SciFi", forChildren = true, 2),
+    Movie("Titanic", "SciFi", forChildren = true, None),
     Movie("The Wolf of Wall Street", "Comedy", forChildren = false, 3),
     Movie("Avengers", "SciFi", forChildren = true, 4),
     Movie("Terminator Genisys", "SciFi", forChildren = false, 5),
@@ -32,8 +33,8 @@ class Movies extends Controller {
     Movie("Mission: Impossible", "Drama", forChildren = true, 9)
   )
 
-  def all = Action {
-    Ok(movies.toJson)
+  def all = Action { implicit req =>
+    Ok(movies.render)
   }
 
   def create = Action(as[Movie]) { req =>
@@ -41,13 +42,13 @@ class Movies extends Controller {
     val id = movies.flatMap(_.id).max + 1
     val movieWithId = movie.copy(id = id.some)
     movies = movieWithId +: movies
-    Created(movieWithId.toJson)
+    Created(movieWithId.renderJson)
   }
 
-  def get(id: Long) = Action {
+  def get(id: Long) = Action { implicit req =>
     val movie = movies.find(movie => movie.id == id.some)
     movie match {
-      case Some(movie) => Ok(movie.toJson)
+      case Some(movie) => Ok(movie.render)
       case None => NotFound
     }
   }

@@ -12,6 +12,6 @@ class Blog(postRepository: PostRepository) extends Controller with Logging {
 
   def posts = Action.async {
     val posts = postRepository.all
-    posts.map { posts => Ok(posts.toJson) }
+    posts.map { posts => Ok(posts.renderJson) }
   }
 }

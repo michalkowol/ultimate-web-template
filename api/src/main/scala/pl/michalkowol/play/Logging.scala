@@ -16,5 +16,5 @@ trait AccessLogging {
 }
 
 trait Logging {
-  val log = Logger(this.getClass())
+  val log = Logger(this.getClass)
 }

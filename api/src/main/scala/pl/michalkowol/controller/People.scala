@@ -12,14 +12,14 @@ import scala.util.{Failure, Success}
 class People(peopleRepository: PeopleRepository) extends Controller {
 
   def all = Action {
-    Ok(peopleRepository.all.sortBy(_.age).toJson)
+    Ok(peopleRepository.all.sortBy(_.age).renderJson)
   }
 
   def create = Action(parse.text) { personReq =>
     val personInput = personReq.body.fromJson[Person]
     personInput.flatMap(peopleRepository.create) match {
-      case Success(person) => Ok(person.toJson)
-      case Failure(ex) => BadRequest(ex.toJson)
+      case Success(person) => Ok(person.renderJson)
+      case Failure(ex) => BadRequest(ex.renderJson)
     }
   }
 }

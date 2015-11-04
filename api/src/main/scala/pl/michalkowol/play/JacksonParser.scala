@@ -1,30 +1,32 @@
 package pl.michalkowol.play
 
+import com.paypal.cascade.json.JsonUtil
+import pl.michalkowol.common.xml._
+import pl.michalkowol.common.yaml.YamlUtil
 import play.api.mvc.BodyParser
 import play.api.mvc.BodyParsers.parse
+import play.api.mvc.Results.{UnprocessableEntity, UnsupportedMediaType}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
-import play.api.mvc.Results.{UnsupportedMediaType, UnprocessableEntity}
 
-import pl.michalkowol.common.json.jackson._
-import pl.michalkowol.common.xml._
+// scalastyle:off cyclomatic.complexity
 
 object JacksonParser {
-
-  // to marshall: private implicit val w = new Writeable[Movie](_.toJsonText.getBytes, Some("application/json"))
 
   def as[T: Manifest](implicit ec: ExecutionContext): BodyParser[T] = parse.using {
     case req if req.contentType.exists(m => m.equalsIgnoreCase("text/json") || m.equalsIgnoreCase("application/json")) =>
       tolerantJsonAs[T]
     case req if req.contentType.exists(m => m.equalsIgnoreCase("text/xml") || m.equalsIgnoreCase("application/xml")) =>
       tolerantXmlAs[T]
+    case req if req.contentType.exists(m => m.equalsIgnoreCase("text/yaml") || m.equalsIgnoreCase("application/yaml")) =>
+      tolerantYamlAs[T]
     case _ =>
       parse.error(Future.successful(UnsupportedMediaType))
   }
 
   def tolerantJsonAs[T: Manifest](implicit ec: ExecutionContext): BodyParser[T] = parse.tolerantText.flatMap { text =>
-    val json = text.fromJson[T]
+    val json = JsonUtil.fromJson[T](text)
     json match {
       case Success(json) => parse.ignore(json)
       case Failure(ex) => parse.error(Future.successful(UnprocessableEntity))
@@ -32,9 +34,16 @@ object JacksonParser {
   }
 
   def tolerantXmlAs[T: Manifest](implicit ec: ExecutionContext): BodyParser[T] = parse.tolerantText.flatMap { text =>
-    val json = text.fromXml[T]
-    json match {
-      case Success(json) => parse.ignore(json)
+    val xml = XmlUtil.fromXml[T](text)
+    xml match {
+      case Success(xml) => parse.ignore(xml)
+      case Failure(ex) => parse.error(Future.successful(UnprocessableEntity))
+    }
+  }
+  def tolerantYamlAs[T: Manifest](implicit ec: ExecutionContext): BodyParser[T] = parse.tolerantText.flatMap { text =>
+    val yaml = YamlUtil.fromYaml[T](text)
+    yaml match {
+      case Success(yaml) => parse.ignore(yaml)
       case Failure(ex) => parse.error(Future.successful(UnprocessableEntity))
     }
   }
