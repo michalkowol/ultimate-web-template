@@ -97,7 +97,95 @@ class MoviesRepository(implicit ec: ExecutionContext) {
     sql.executeInsert(SqlParser.scalar[Long].single)
   }
 
+  /*
+    From stored procedures (function) we can return:
+    1) Cursor (auto-commit must be off)
+    CREATE OR REPLACE FUNCTION show_cities(ref refcursor) RETURNS refcursor AS $$
+    BEGIN
+      OPEN ref FOR SELECT city, state FROM cities;
+      RETURN ref;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    BEGIN;
+      SELECT show_cities2('cities_cur');
+      FETCH ALL IN "cities_cur";
+    COMMIT;
+
+    2.1) Set of records:
+    CREATE OR REPLACE FUNCTION get_countries(country_code OUT text, country_name OUT text) RETURNS setof record AS $$
+    BEGIN
+      SELECT country_code, country_name FROM country_codes
+    END;
+    $$ LANGUAGE plpgsql;
+
+    2.2) Set of records:
+    CREATE OR REPLACE FUNCTION getcustomers() RETURNS SETOF customers AS $$
+    BEGIN
+      SELECT * FROM customers;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    3.1) Table
+    CREATE OR REPLACE FUNCTION get_countries()
+    RETURNS TABLE(
+      country_code text,
+      country_name text
+    ) AS $$
+    BEGIN
+      SELECT country_code, country_name FROM country_codes
+    END;
+    $$ LANGUAGE plpgsql;
+
+    3.2) Table
+    CREATE OR REPLACE FUNCTION get_object_fields(name text) RETURNS mytable AS $$
+    DECLARE f1 INT;
+    DECLARE f2 INT;
+    ...
+    DECLARE f8 INT;
+    DECLARE retval mytable;
+      BEGIN
+      -- fetch fields f1, f2 and f3 from table t1
+      -- fetch fields f4, f5 from table t2
+      -- fetch fields f6, f7 and f8 from table t3
+      retval := (f1, f2, ..., f8);
+      RETURN retval;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    4.1) Record
+    CREATE FUNCTION test_ret(a TEXT, b TEXT) RETURNS RECORD AS $$
+    DECLARE
+      ret RECORD;
+    BEGIN
+      IF LENGTH(a) < LENGTH(b) THEN
+        SELECT TRUE, a || b, 'a shorter than b' INTO ret;
+      ELSE
+        SELECT FALSE, b || a, NULL INTO ret;
+      END IF;
+      RETURN ret;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    4.2) Record
+    CREATE FUNCTION test_ret(a TEXT, b TEXT) RETURNS RECORD AS $$
+    DECLARE
+      ret RECORD;
+    BEGIN
+      -- Note the CASTING being done for the 2nd and 3rd elements of the RECORD
+      IF LENGTH(a) < LENGTH(b) THEN
+        ret := (TRUE, (a || b)::TEXT, 'a shorter than b'::TEXT);
+      ELSE
+        ret := (FALSE, (b || a)::TEXT, NULL::TEXT);
+      END IF;
+      RETURN ret;
+    END;
+    $$ LANGUAGE plpgsql;
+
+    5) Type
+  */
   def create(movie: Movie): Future[Movie] = {
+    // it should be a transaction!
     val genre = createGenre(movie.genre)
     val rating = createRating(movie.mpaaFilmRate)
 
