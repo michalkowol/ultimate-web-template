@@ -67,8 +67,10 @@ const MovieTable = React.createClass({
     return (
         <table>
           <thead>
-          <th>Name</th>
-          <th>Genre</th>
+          <tr>
+            <th>Name</th>
+            <th>Genre</th>
+          </tr>
           </thead>
           <tbody>{rows}</tbody>
         </table>
@@ -78,10 +80,10 @@ const MovieTable = React.createClass({
 
 const MovieRow = React.createClass({
   render() {
-    const name = this.props.movie.forChildren ? this.props.movie.name : <span style={{color: 'red'}}>{this.props.movie.name}</span>;
+    const title = this.props.movie.forChildren ? this.props.movie.title : <span style={{color: 'red'}}>{this.props.movie.title}</span>;
     return (
         <tr>
-          <td>{name}</td>
+          <td>{title}</td>
           <td>{this.props.movie.genre}</td>
         </tr>
     );

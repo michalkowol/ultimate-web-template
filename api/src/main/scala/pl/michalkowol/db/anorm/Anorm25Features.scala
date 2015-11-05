@@ -1,5 +1,8 @@
 package pl.michalkowol.db.anorm
 
+import java.sql.Connection
+
+import anorm._
 import anorm.{SqlParser, Macro, RowParser}
 import pl.michalkowol.db.Post
 
@@ -14,5 +17,5 @@ object AnyTableParser25 {
     }
   }
   // new in 2.5
-  // val result: List[Map[String, Any]] = SQL"SELECT * FROM dyn_table".as(parser.*)
+  def result(implicit connection: Connection): List[Map[String, Any]] = SQL"SELECT * FROM dyn_table".as(parser.*)
 }

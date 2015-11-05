@@ -1,17 +1,16 @@
-package pl.michalkowol.db.anorm
+package pl.michalkowol.repository
 
 import anorm._
 import pl.michalkowol.common.db._
 import pl.michalkowol.db.Post
-import pl.michalkowol.repository.PostRepository
+import pl.michalkowol.db.anorm.Posts25
 import play.api.db.DB
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AnormPostRepository(implicit ec: ExecutionContext) extends PostRepository {
+class PostsRepository(implicit ec: ExecutionContext) {
 
   def all: Future[Seq[Post]] = DB.withAsyncConnection { implicit c =>
-    AnormJsonRepository.insertJson
     val sql = SQL"SELECT * FROM posts"
     sql.as(Posts25.post.*)
   }

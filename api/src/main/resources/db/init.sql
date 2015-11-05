@@ -207,3 +207,19 @@ project under the project’s open source license.
    [BlockPluginParser]: http://github.com/sirthias/pegdown/blob/master/src/main/java/org/pegdown/plugins/BlockPluginParser.java
    [ToHtmlSerializerPlugin]: http://github.com/sirthias/pegdown/blob/master/src/main/java/org/pegdown/plugins/ToHtmlSerializerPlugin.java
    [PluginParser]: http://github.com/sirthias/pegdown/blob/master/src/test/java/org/pegdown/PluginParser.java');
+
+insert into mpaa_film_ratings(id, name) values (1, 'G'), (2, 'PG'), (3, 'PG-13'), (4, 'R'), (5, 'NC-17');
+insert into genres(id, name) values (1, 'SciFi'), (2, 'Comedy'), (3, 'Drama');
+insert into movies(id, title, mpaa_film_rate_id, genre_id) values
+  (1, 'Interstellar', 2, 1),
+  (2, 'Titanic', 3, 3),
+  (3, 'The Wolf of Wall Street', 5, 2),
+  (4, 'Avengers', 2, 1),
+  (5, 'Terminator Genisys', 3, 1),
+  (6, 'Iron Man', 1, 1),
+  (7, 'Mission: Impossible', 2, 3),
+  (8, 'Forrest Gump', 1, 2);
+
+select setval('mpaa_film_ratings_id_seq', (select max(id) from mpaa_film_ratings));
+select setval('genres_id_seq', (select max(id) from genres));
+select setval('movies_id_seq', (select max(id) from movies));

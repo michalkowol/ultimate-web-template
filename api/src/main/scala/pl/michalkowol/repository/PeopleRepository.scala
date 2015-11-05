@@ -18,7 +18,7 @@ class PeopleRepository(implicit ec: ExecutionContext) {
     sql.as(People.person.*)
   }
 
-  def allIds: List[Int] = DB.withConnection { implicit c =>
+  def allIds: List[Long] = DB.withConnection { implicit c =>
     val sql = SQL"SELECT id FROM people"
     sql.as(People.id.*)
   }
@@ -28,7 +28,7 @@ class PeopleRepository(implicit ec: ExecutionContext) {
     sql.as(People.person.singleOpt)
   }
 
-  def allCustom: List[(Int, String, Option[String])] = DB.withConnection { implicit c =>
+  def allCustom: List[(Long, String, Option[String])] = DB.withConnection { implicit c =>
     val simpleParser = People.id ~ People.name ~ Addresses.street.? map flatten
     val sql = SQL"SELECT p.id, p.name, a.street FROM people as p LEFT JOIN addresses as a ON p.id = a.id"
     sql.as(simpleParser.*)
@@ -48,7 +48,7 @@ class PeopleRepository(implicit ec: ExecutionContext) {
       case id ~ name ~ age ~ _ ~ _ => (id, Person(name, age), None)
     }
 
-    def peopleWithAddresses: List[(Int, Person, Option[(String, String)])] = DB.withConnection { implicit c =>
+    def peopleWithAddresses: List[(Long, Person, Option[(String, String)])] = DB.withConnection { implicit c =>
       val sql =
         SQL"""
          SELECT p.id, p.name, p.age, a.street, c.name AS city_name FROM people AS p

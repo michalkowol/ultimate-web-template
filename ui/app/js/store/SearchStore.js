@@ -48,7 +48,7 @@ const SearchStore = (function () {
 
   function filteredMovies() {
     const filteredMovies = _.filter(movies, movie => {
-      return (movie.forChildren || forChildren === movie.forChildren) && movie.name.indexOf(searchText) !== -1;
+      return (movie.forChildren || forChildren === movie.forChildren) && movie.title.indexOf(searchText) !== -1;
     });
     return filteredMovies;
   }

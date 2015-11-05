@@ -17,7 +17,7 @@ class ErrorHandler(env: Environment, config: Configuration, sourceMapper: Option
 
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
     exception match {
-      case ex: KrakowException => Future.successful(InternalServerError(ex.renderJson))
+      case ex: KrakowException => Future.successful(PaymentRequired(ex.renderJson))
       case _ => super.onServerError(request, exception)
     }
   }

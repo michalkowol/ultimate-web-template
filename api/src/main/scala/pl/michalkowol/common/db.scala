@@ -9,5 +9,17 @@ package object db {
     def withAsyncConnection[A](block: Connection => A)(implicit ec: ExecutionContext): Future[A] = Future {
       db.withConnection(block)
     }
+
+    def withAsyncConnection[A](name: String = "default", autocommit: Boolean = true)(block: Connection => A)(implicit ec: ExecutionContext): Future[A] = Future {
+      db.withConnection(name, autocommit)(block)
+    }
+
+    def withAsyncConnectionFlatMap[A](block: Connection => Future[A])(implicit ec: ExecutionContext): Future[A] = Future {
+      db.withConnection(block)
+    }.flatMap(identity)
+
+    def withAsyncConnectionFlatMap[A](name: String = "default", autocommit: Boolean = true)(block: Connection => Future[A])(implicit ec: ExecutionContext): Future[A] = Future {
+      db.withConnection(name, autocommit)(block)
+    }.flatMap(identity)
   }
 }

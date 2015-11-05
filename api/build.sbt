@@ -23,7 +23,7 @@ libraryDependencies += "com.paypal" %% "cascade-json" % "0.5.1" excludeAll (Excl
 libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.3"
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0"
 libraryDependencies += "org.flywaydb" % "flyway-core" % "3.2.1"
-libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1204-jdbc42" exclude("org.slf4j", "slf4j-simple")
+libraryDependencies += "org.postgresql" % "postgresql" % "9.4-1205-jdbc42" exclude("org.slf4j", "slf4j-simple")
 
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
 libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
