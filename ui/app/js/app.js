@@ -1,5 +1,6 @@
 import FilterableMovieTable from './component/FilterableMovieTable.react';
 import SearchActions from './action/SearchActions';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jQuery';
 
