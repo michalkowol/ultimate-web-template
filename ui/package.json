@@ -20,8 +20,8 @@
     "gulp-connect": "2.2.x",
     "gulp-react-templates": "0.1.x",
     "gulp-sourcemaps": "1.6.x",
-    "jest-cli": "0.5.x",
-    "babel-jest": "*",
+    "jest-cli": "0.7.x",
+    "babel-jest": "6.0.x",
     "run-sequence": "1.1.x",
     "vinyl-source-stream": "1.1.x"
   },
