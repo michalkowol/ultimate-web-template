@@ -60,9 +60,7 @@ const SearchBar = React.createClass({
 });
 
 const MovieTable = ({movies}) => {
-  const rows = _.map(movies, movie => {
-    return <MovieRow movie={movie}/>
-  });
+  const rows = _.map(movies, movie => <MovieRow movie={movie}/>);
   return (
     <table>
       <thead>
