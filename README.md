@@ -1,12 +1,24 @@
-# Play and React template
+# [Play 2.4](https://www.playframework.com/), [React 0.14](https://facebook.github.io/react/) and [PostgreSQL 9.5](http://www.postgresql.org/) template.
 
-## Build
+## Run
+
+```
+sbt run
+```
+
+## Debug
+
+```
+sbt -jvm-debug 5005 run
+```
+
+## Assembly
 
 ```
 sbt assembly
 ```
 
-## Run
+## Run dist
 
 ### Local
 
