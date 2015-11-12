@@ -59,35 +59,31 @@ const SearchBar = React.createClass({
   }
 });
 
-const MovieTable = React.createClass({
-  render() {
-    const rows = _.map(this.props.movies, movie => {
-      return <MovieRow movie={movie}/>
-    });
-    return (
-        <table>
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Genre</th>
-          </tr>
-          </thead>
-          <tbody>{rows}</tbody>
-        </table>
-    );
-  }
-});
+const MovieTable = ({movies}) => {
+  const rows = _.map(movies, movie => {
+    return <MovieRow movie={movie}/>
+  });
+  return (
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Genre</th>
+      </tr>
+      </thead>
+      <tbody>{rows}</tbody>
+    </table>
+  );
+};
 
-const MovieRow = React.createClass({
-  render() {
-    const title = this.props.movie.forChildren ? this.props.movie.title : <span style={{color: 'red'}}>{this.props.movie.title}</span>;
-    return (
-        <tr>
-          <td>{title}</td>
-          <td>{this.props.movie.genre}</td>
-        </tr>
-    );
-  }
-});
+const MovieRow = ({movie}) => {
+  const title = movie.forChildren ? movie.title : <span style={{color: 'red'}}>{movie.title}</span>;
+  return (
+    <tr>
+      <td>{title}</td>
+      <td>{movie.genre}</td>
+    </tr>
+  );
+};
 
 export default FilterableMovieTable;
