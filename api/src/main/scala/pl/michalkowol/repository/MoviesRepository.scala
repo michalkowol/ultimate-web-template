@@ -184,7 +184,7 @@ class MoviesRepository(implicit ec: ExecutionContext) {
 
     5) Type
   */
-  def create(movie: Movie): Future[Movie] = {
+  def createWithManyQueries(movie: Movie): Future[Movie] = {
     // it should be a transaction!
     val genre = createGenre(movie.genre)
     val rating = createRating(movie.mpaaFilmRate)
@@ -196,5 +196,11 @@ class MoviesRepository(implicit ec: ExecutionContext) {
     } yield {
       movie.copy(id = insertedMovie.some)
     }
+  }
+
+  def create(movie: Movie): Future[Movie] = DB.withAsyncConnection { implicit c =>
+    val sql = SQL"select insert_movie(${movie.title}, ${movie.genre}, ${movie.mpaaFilmRate})"
+    val movieId = sql.as(SqlParser.scalar[Long].single)
+    movie.copy(id = movieId.some)
   }
 }

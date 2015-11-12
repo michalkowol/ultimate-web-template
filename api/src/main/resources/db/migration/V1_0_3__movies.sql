@@ -33,4 +33,19 @@ create table movies
 create view movies_flatten as
   select movies.id, movies.title, genres.name as genre, mpaa_film_ratings.name as mpaa_film_rate from movies
   join genres on movies.genre_id = genres.id
-  join mpaa_film_ratings on movies.mpaa_film_rate_id = mpaa_film_ratings.id
+  join mpaa_film_ratings on movies.mpaa_film_rate_id = mpaa_film_ratings.id;
+
+create or replace function insert_movie(title varchar(255), genre varchar(255), mpaa_film_rate varchar(255)) returns int as $$
+declare
+  g_id int;
+  r_id int;
+  m_id int;
+begin
+  begin
+    insert into genres as g (name) values (genre) on conflict (name) do update set id = g.id returning id into g_id;
+    insert into mpaa_film_ratings as r (name) values (mpaa_film_rate) on conflict (name) do update set id = r.id returning id into r_id;
+    insert into movies (title, mpaa_film_rate_id, genre_id) values (title, r_id, g_id) returning id into m_id;
+    return m_id;
+  end;
+end;
+$$ language plpgsql;
