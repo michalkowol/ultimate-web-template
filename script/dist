@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+cd "$(dirname "$0")/.."
+
+echo "===> Building dist..."
+
+script/prebuild
+
+root=$(pwd)
+cd ${root}/api
+sbt assembly
+cp -rf ${root}/api/target/scala-2.11/play-scala-assembly-*.jar ${root}/
+
+echo "===> Dist built."

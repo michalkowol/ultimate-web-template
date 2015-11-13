@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+cd "$(dirname "$0")/.."
+
+echo "===> Cleaning..." 
+
+root=$(pwd)
+rm -rf ${root}/play-scala-assembly-*.jar
+rm -rf ${root}/ui/node_modules
+rm -rf ${root}/ui/dist
+rm -rf ${root}/api/target
+rm -rf ${root}/api/logs
+rm -rf ${root}/api/project/target
+rm -rf ${root}/api/project/project
+rm -rf ${root}/api/src/main/resources/public
+
+echo "===> Cleaned." 

@@ -12,7 +12,18 @@ paths:
     get:
       summary: Get movies.
       description: |
-        The Movies endpoint returns information about the movies.
+        The Movies endpoint returns information about the movies. Insert code `{a: b}`.
+        Examples:
+        ```
+        {
+          "a": 1
+        }
+        ```
+        ```
+        {
+          "a": 1
+        }
+        ```
       tags:
         - Movie
       parameters:

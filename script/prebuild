@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+cd "$(dirname "$0")/.."
+
+script/update
+
+echo "==> Prebuild..." 
+
+root=$(pwd)
+cd ${root}/ui
+npm install
+gulp dist
+cp -rf ${root}/ui/dist/ ${root}/api/src/main/resources/public/
+
+echo "==> Prebuild finished." 
