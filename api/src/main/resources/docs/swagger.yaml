@@ -1,0 +1,80 @@
+swagger: '2.0'
+info:
+  title: Your code API
+  version: 1.0.0
+basePath: /api
+produces:
+  - application/json
+  - application/xml
+  - application/yaml
+paths:
+  /movies:
+    get:
+      summary: Get movies.
+      description: |
+        The Movies endpoint returns information about the movies.
+      tags:
+        - Movie
+      parameters:
+        - name: title
+          in: query
+          description: Titile of a movie.
+          required: false
+          type: string
+      responses:
+        200:
+          description: An array of movies
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Movie'
+        500:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create a movie.
+      description: Creates the new movie.
+      tags:
+        - Movie
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/Movie'
+      responses:
+        201:
+          description: Created movie.
+          schema:
+            $ref: '#/definitions/Movie'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Movie:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: Id of the movie.
+      title:
+        type: string
+        description: Title of the movie.
+      mpaaFilmRate:
+        type: string
+        description: MPAA Film Rate.
+      genre:
+        type: string
+        description: Movie's genre.
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

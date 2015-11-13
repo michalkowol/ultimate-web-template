@@ -1,6 +1,6 @@
 package pl.michalkowol.module
 
-import pl.michalkowol.controller.{Movies, Blog, Weather, People}
+import pl.michalkowol.controller._
 import scaldi.Module
 
 class ControllersModule extends Module {

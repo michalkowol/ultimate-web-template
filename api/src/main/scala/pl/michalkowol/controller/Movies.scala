@@ -6,7 +6,6 @@ import pl.michalkowol.play.render._
 import pl.michalkowol.repository.MoviesRepository
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.{Action, Controller}
-import com.paypal.cascade.common.future._
 
 import scala.util.control.NonFatal
 

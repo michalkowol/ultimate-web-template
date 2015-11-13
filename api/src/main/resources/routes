@@ -10,4 +10,8 @@ GET         /api/movies                         pl.michalkowol.controller.Movies
 GET         /api/movies/:id                     pl.michalkowol.controller.Movies.get(id: Long)
 POST        /api/movies                         pl.michalkowol.controller.Movies.create
 
-GET         /assets/*file                       controllers.Assets.versioned(path="/public", file: Asset)
+GET         /api/docs/swagger.yaml              controllers.Assets.at(path="/docs", file="swagger.yaml")
+GET         /api/docs/editor/                   controllers.Assets.at(path="/docs/swagger", file="editor.html")
+GET         /api/docs/editor/*file              controllers.Assets.versioned(path="/docs/swagger", file: Asset)
+GET         /api/docs/                          controllers.Assets.at(path="/docs/swagger", file="index.html")
+GET         /api/docs/*file                     controllers.Assets.versioned(path="/docs/swagger", file: Asset)
