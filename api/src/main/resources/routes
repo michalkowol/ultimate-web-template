@@ -11,7 +11,9 @@ GET         /api/movies/:id                     pl.michalkowol.controller.Movies
 POST        /api/movies                         pl.michalkowol.controller.Movies.create
 
 GET         /api/docs/swagger.yaml              controllers.Assets.at(path="/docs", file="swagger.yaml")
-GET         /api/docs/editor/                   controllers.Assets.at(path="/docs/swagger", file="editor.html")
-GET         /api/docs/editor/*file              controllers.Assets.versioned(path="/docs/swagger", file: Asset)
-GET         /api/docs/                          controllers.Assets.at(path="/docs/swagger", file="index.html")
-GET         /api/docs/*file                     controllers.Assets.versioned(path="/docs/swagger", file: Asset)
+GET         /api/docs/editor/                   controllers.Assets.at(path="/docs/swagger-editor", file="editor.html")
+GET         /api/docs/editor/*file              controllers.Assets.versioned(path="/docs/swagger-editor", file: Asset)
+GET         /api/docs/preview/                  controllers.Assets.at(path="/docs/swagger-editor", file="index.html")
+GET         /api/docs/preview/*file             controllers.Assets.versioned(path="/docs/swagger-editor", file: Asset)
+GET         /api/docs/                          controllers.Assets.at(path="/docs/swagger-ui", file="index.html")
+GET         /api/docs/*file                     controllers.Assets.versioned(path="/docs/swagger-ui", file: Asset)

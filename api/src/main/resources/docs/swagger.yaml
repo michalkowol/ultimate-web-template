@@ -51,6 +51,22 @@ paths:
           description: Unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /ops:
+    put:
+      tags:
+        - ops
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+      responses:
+        200:
+          description: Created movie.
+          examples:
+            application/json: '{"a": 1, "b": "c"}'
+          schema:
+            type: object
 definitions:
   Movie:
     type: object
