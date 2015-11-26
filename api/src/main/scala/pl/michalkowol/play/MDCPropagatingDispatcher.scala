@@ -23,12 +23,12 @@ class MDCPropagatingDispatcherConfigurator(config: Config, prerequisites: Dispat
 }
 
 private class MDCPropagatingDispatcher(
-    configurator:                   MessageDispatcherConfigurator,
-    id:                             String,
-    throughput:                     Int,
-    throughputDeadlineTime:         Duration,
+    configurator: MessageDispatcherConfigurator,
+    id: String,
+    throughput: Int,
+    throughputDeadlineTime: Duration,
     executorServiceFactoryProvider: ExecutorServiceFactoryProvider,
-    shutdownTimeout:                FiniteDuration
+    shutdownTimeout: FiniteDuration
 ) extends Dispatcher(configurator, id, throughput, throughputDeadlineTime, executorServiceFactoryProvider, shutdownTimeout) {
 
   self =>

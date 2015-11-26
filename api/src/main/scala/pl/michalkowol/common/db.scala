@@ -10,7 +10,7 @@ package object db {
       db.withConnection(block)
     }
 
-    def withAsyncConnection[A](name: String = "default", autocommit: Boolean = true)(block: Connection => A)(implicit ec: ExecutionContext): Future[A] = Future {
+    def withAsyncConnection[A](name: String = "default", autocommit: Boolean = true)(block: Connection => A)(implicit ec: ExecutionContext): Future[A] = Future { // scalastyle:ignore
       db.withConnection(name, autocommit)(block)
     }
 
@@ -18,7 +18,7 @@ package object db {
       db.withConnection(block)
     }.flatMap(identity)
 
-    def withAsyncConnectionFlatMap[A](name: String = "default", autocommit: Boolean = true)(block: Connection => Future[A])(implicit ec: ExecutionContext): Future[A] = Future {
+    def withAsyncConnectionFlatMap[A](name: String = "default", autocommit: Boolean = true)(block: Connection => Future[A])(implicit ec: ExecutionContext): Future[A] = Future { // scalastyle:ignore
       db.withConnection(name, autocommit)(block)
     }.flatMap(identity)
   }

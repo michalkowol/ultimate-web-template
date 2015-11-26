@@ -26,15 +26,15 @@ const FilterableMovieTable = React.createClass({
   },
   render() {
     return (
-        <div>
-          <SearchBar
-              searchText={this.state.searchText}
-              forChildren={this.state.forChildren}
-              />
-          <MovieTable
-              movies={this.state.movies}
-              />
-        </div>
+      <div>
+        <SearchBar
+          searchText={this.state.searchText}
+          forChildren={this.state.forChildren}
+        />
+        <MovieTable
+          movies={this.state.movies}
+        />
+      </div>
     );
   }
 });
@@ -50,17 +50,16 @@ const SearchBar = React.createClass({
   },
   render() {
     return (
-        <div>
-          <input type="text" placeholder="Search..." value={this.props.searchText} onChange={this.searchTextChanged} ref="SearchInput"/>
-
-          <p><input type="checkbox" checked={this.props.forChildren} onChange={this.forChildrenCheckboxChanged} ref="ForChildrenInput"/> Movie for children</p>
-        </div>
+      <div>
+        <input type="text" placeholder="Search..." value={this.props.searchText} onChange={this.searchTextChanged} ref="SearchInput"/>
+        <p><input type="checkbox" checked={this.props.forChildren} onChange={this.forChildrenCheckboxChanged} ref="ForChildrenInput"/> Movie for children</p>
+      </div>
     );
   }
 });
 
 const MovieTable = ({movies}) => {
-  const rows = _.map(movies, movie => <MovieRow movie={movie}/>);
+  const rows = _.map(movies, movie => <MovieRow movie={movie} key={movie.id}/>);
   return (
     <table>
       <thead>
