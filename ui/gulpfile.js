@@ -18,13 +18,35 @@ gulp.task('clean', function() {
   return del(['dist']);
 });
 
-gulp.task('js', function () {
-  return browserify({entries: './app/js/app.js', debug: true, transform: [babelify.configure({presets: ["es2015", "react"]})]})
-      .bundle()
-      .pipe(source('bundle.js'))
-      .pipe(gulp.dest('dist/js'))
-      .pipe(connect.reload());
-});
+var bundle = (function () {
+    var gutil = require('gulp-util');
+    var assign = require('lodash.assign');
+    var watchify = require('watchify');
+    var assign = require('lodash.assign');
+
+    var customOpts = {
+        entries: './app/js/app.js',
+        debug: true,
+        transform: [babelify.configure({presets: ["es2015", "react"]})]
+    };
+    var opts = assign({}, watchify.args, customOpts);
+    var b = watchify(browserify(opts));
+    var bundle = function () {
+        gutil.log("Bundle using '", gutil.colors.cyan("\bbrowserify"), "\b'...")
+        return b.bundle()
+            .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+            .pipe(source('bundle.js'))
+            //             .pipe(buffer())
+            //             .pipe(sourcemaps.init({loadMaps: true}))
+            //             .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest('dist/js'))
+            .pipe(connect.reload());
+    };
+    b.on('update', bundle);
+    return bundle;
+})();
+
+gulp.task('js', bundle);
 
 gulp.task('html', function () {
   return gulp.src(paths.htmls)
@@ -59,7 +81,6 @@ gulp.task('connect', function () {
 gulp.task('watch', function () {
   gulp.watch(paths.htmls, ['html']);
   gulp.watch(paths.css, ['css']);
-  gulp.watch(paths.scripts, ['js']);
 });
 
 gulp.task('build', ['js', 'css', 'html']);
