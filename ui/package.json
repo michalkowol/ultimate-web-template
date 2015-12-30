@@ -6,7 +6,6 @@
     "jquery": "2.1.x",
     "lodash": "3.10.x",
     "marked": "0.3.x",
-    "proxy-middleware": "0.15.x",
     "react": "0.14.x",
     "react-dom": "0.14.x",
     "signals": "1.0.x"
@@ -25,7 +24,9 @@
     "gulp-util": "3.0.x",
     "jest-cli": "0.8.x",
     "lodash.assign": "3.2.x",
+    "proxy-middleware": "0.15.x",
     "run-sequence": "1.1.x",
+    "vinyl-buffer": "1.0.x",
     "vinyl-source-stream": "1.1.x",
     "watchify": "3.6.x"
   },

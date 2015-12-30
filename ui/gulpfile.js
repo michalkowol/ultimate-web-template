@@ -1,9 +1,6 @@
 var gulp = require('gulp');
-var browserify = require('browserify');
-var babelify = require('babelify');
 var connect = require('gulp-connect');
 var sourcemaps = require('gulp-sourcemaps');
-var source = require('vinyl-source-stream');
 var del = require('del');
 var runSequence = require('run-sequence');
 var proxy = require('proxy-middleware');
@@ -19,10 +16,14 @@ gulp.task('clean', function() {
 });
 
 var bundle = (function () {
+    var browserify = require('browserify');
+    var babelify = require('babelify');
     var gutil = require('gulp-util');
     var assign = require('lodash.assign');
     var watchify = require('watchify');
     var assign = require('lodash.assign');
+    var buffer = require('vinyl-buffer');
+    var source = require('vinyl-source-stream');
 
     var customOpts = {
         entries: './app/js/app.js',
@@ -36,9 +37,9 @@ var bundle = (function () {
         return b.bundle()
             .on('error', gutil.log.bind(gutil, 'Browserify Error'))
             .pipe(source('bundle.js'))
-            //             .pipe(buffer())
-            //             .pipe(sourcemaps.init({loadMaps: true}))
-            //             .pipe(sourcemaps.write('./'))
+            .pipe(buffer())
+            .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest('dist/js'))
             .pipe(connect.reload());
     };
