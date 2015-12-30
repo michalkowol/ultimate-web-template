@@ -19,7 +19,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('js', function () {
-  return browserify({entries: './app/js/app.js', debug: true, transform: [babelify]})
+  return browserify({entries: './app/js/app.js', debug: true, transform: [babelify.configure({presets: ["es2015", "react"]})]})
       .bundle()
       .pipe(source('bundle.js'))
       .pipe(gulp.dest('dist/js'))
@@ -36,11 +36,6 @@ gulp.task('css', function () {
   return gulp.src(paths.css)
       .pipe(gulp.dest('dist/css'))
       .pipe(connect.reload());
-});
-
-gulp.task('bower', function () {
-  return gulp.src('app/bower_components/**/*')
-    .pipe(gulp.dest('dist/bower_components'));
 });
 
 gulp.task('connect', function () {
@@ -67,7 +62,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.scripts, ['js']);
 });
 
-gulp.task('build', ['bower', 'js', 'css', 'html']);
+gulp.task('build', ['js', 'css', 'html']);
 gulp.task('dist', function (callback) {
   runSequence('clean', 'build', callback);
 });
