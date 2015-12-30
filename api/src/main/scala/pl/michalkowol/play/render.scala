@@ -39,7 +39,7 @@ package object render extends AcceptExtractors {
     def render(implicit request: RequestHeader): Renderable = {
       contentNegotiation[Renderable] {
         case Accepts.Json() => Some(new JsonValue(JsonUtil.toJson(marshallMe)))
-        //        case Accepts.Xml() => Some(new XmlValue(XmlUtil.toXml(marshallMe)))
+        case Accepts.Xml() => Some(new XmlValue(XmlUtil.toXml(marshallMe)))
         case AcceptsYaml() => Some(new YamlValue(YamlUtil.toYaml(marshallMe)))
       }.getOrElse(throw new Exception("NotAcceptable"))
     }
@@ -52,7 +52,7 @@ package object render extends AcceptExtractors {
   implicit def contentTypeOfRenderable(implicit codec: Codec, request: RequestHeader): ContentTypeOf[Renderable] = {
     val contentTypeName = contentNegotiation[String] {
       case Accepts.Json() => Some("application/json")
-      //      case Accepts.Xml() => Some("application/xml")
+      case Accepts.Xml() => Some("application/xml")
       case AcceptsYaml() => Some("application/yaml")
     }
     ContentTypeOf(contentTypeName)
