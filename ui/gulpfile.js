@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var connect = require('gulp-connect');
 var sourcemaps = require('gulp-sourcemaps');
+var stylus = require('gulp-stylus');
 var del = require('del');
 var runSequence = require('run-sequence');
 var proxy = require('proxy-middleware');
@@ -8,7 +9,8 @@ var proxy = require('proxy-middleware');
 var paths = {
   scripts: 'app/js/**/*.js',
   htmls: ['app/index.html'],
-  css: ['app/css/**/*.css', 'node_modules/bootstrap/dist/css/**/*.css']
+  css: ['app/css/**/*.css', 'node_modules/bootstrap/dist/css/**/*.css'],
+  stylus: 'app/css/**/*.styl'
 };
 
 gulp.task('clean', function() {
@@ -57,8 +59,17 @@ gulp.task('html', function () {
 
 gulp.task('css', function () {
   return gulp.src(paths.css)
-      .pipe(gulp.dest('dist/css'))
-      .pipe(connect.reload());
+    .pipe(gulp.dest('dist/css'))
+    .pipe(connect.reload());
+});
+
+gulp.task('stylus', function () {
+  return gulp.src(paths.stylus)
+    .pipe(sourcemaps.init())
+    .pipe(stylus())
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('dist/css'))
+    .pipe(connect.reload());
 });
 
 gulp.task('connect', function () {
@@ -82,9 +93,10 @@ gulp.task('connect', function () {
 gulp.task('watch', function () {
   gulp.watch(paths.htmls, ['html']);
   gulp.watch(paths.css, ['css']);
+  gulp.watch(paths.stylus, ['stylus']);
 });
 
-gulp.task('build', ['js', 'css', 'html']);
+gulp.task('build', ['js', 'stylus', 'css', 'html']);
 gulp.task('dist', function (callback) {
   runSequence('clean', 'build', callback);
 });

@@ -21,6 +21,7 @@
     "gulp-connect": "2.3.x",
     "gulp-react-templates": "0.1.x",
     "gulp-sourcemaps": "1.6.x",
+    "gulp-stylus": "2.1.x",
     "gulp-util": "3.0.x",
     "jest-cli": "0.8.x",
     "lodash.assign": "3.2.x",
