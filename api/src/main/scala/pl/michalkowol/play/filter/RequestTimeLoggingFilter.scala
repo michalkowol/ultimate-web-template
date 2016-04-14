@@ -1,14 +1,16 @@
 package pl.michalkowol.play.filter
 
+import akka.stream.Materializer
+import scala.concurrent.{ExecutionContext, Future}
+
 import play.api.Logger
 import play.api.http.HttpErrorHandler
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc._
 
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-class RequestTimeLoggingFilter(errorHandler: HttpErrorHandler) extends Filter {
+class RequestTimeLoggingFilter(errorHandler: HttpErrorHandler)(implicit val mat: Materializer, ec: ExecutionContext) extends Filter {
 
   private val log = Logger("RequestTime")
 

@@ -2,15 +2,17 @@ package pl.michalkowol.play.filter
 
 import java.util.UUID
 
+import akka.stream.Materializer
+import scala.concurrent.{ExecutionContext, Future}
+
 import play.api.http.HttpErrorHandler
 import play.api.mvc._
 import scala.concurrent.Future
 import org.slf4j.MDC
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 import scala.util.control.NonFatal
 
-class MDCFilter(errorHandler: HttpErrorHandler) extends Filter {
+class MDCFilter(errorHandler: HttpErrorHandler)(implicit val mat: Materializer, ec: ExecutionContext) extends Filter {
 
   private val requestIdKey = "X-Request-Id"
 

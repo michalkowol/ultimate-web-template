@@ -1,5 +1,5 @@
-import AppDispatcher from './../dispatcher/AppDispatcher';
-import SearchActions from './../action/SearchActions';
+import AppDispatcher from 'dispatcher/AppDispatcher';
+import SearchActions from 'action/SearchActions';
 import signals from 'signals';
 import _ from 'lodash';
 

@@ -1,5 +1,5 @@
 name := "play-scala"
-scalaVersion in ThisBuild := "2.11.7"
+scalaVersion in ThisBuild := "2.11.8"
 
 incOptions := incOptions.value.withNameHashing(nameHashing = true)
 
@@ -14,16 +14,16 @@ libraryDependencies += jdbc
 libraryDependencies += ws
 libraryDependencies += filters
 
-val jacksonVersion = "2.6.3"
+val jacksonVersion = "2.7.2"
 
-libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.12"
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.3"
+libraryDependencies += "org.scaldi" %% "scaldi-play" % "0.5.15"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.1.5"
 libraryDependencies += "com.paypal" %% "cascade-common" % "0.5.1" excludeAll (ExclusionRule("com.fasterxml.jackson.dataformat"), ExclusionRule("com.fasterxml.jackson.core"), ExclusionRule("com.fasterxml.jackson.module"), ExclusionRule("com.fasterxml.jackson.datatype"))
 libraryDependencies += "com.paypal" %% "cascade-json" % "0.5.1" excludeAll (ExclusionRule("com.fasterxml.jackson.dataformat"), ExclusionRule("com.fasterxml.jackson.core"), ExclusionRule("com.fasterxml.jackson.module"), ExclusionRule("com.fasterxml.jackson.datatype"))
 libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.3"
 libraryDependencies += "com.typesafe.play" %% "anorm" % "2.5.0"
-libraryDependencies += "org.flywaydb" % "flyway-core" % "3.2.1"
-libraryDependencies += "org.postgresql" % "postgresql" % "9.4.1207" exclude("org.slf4j", "slf4j-simple")
+libraryDependencies += "org.flywaydb" % "flyway-core" % "4.0"
+libraryDependencies += "org.postgresql" % "postgresql" % "9.4.1208" exclude("org.slf4j", "slf4j-simple")
 
 libraryDependencies += "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
 libraryDependencies += "com.fasterxml.jackson.module" %% "jackson-module-scala" % jacksonVersion
@@ -33,7 +33,7 @@ libraryDependencies += "com.fasterxml.jackson.dataformat" % "jackson-dataformat-
 libraryDependencies += "com.fasterxml.woodstox" % "woodstox-core" % "5.0.2"
 
 libraryDependencies += "org.scalatestplus" %% "play" % "1.5.0-SNAP1" % "test"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.5" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 libraryDependencies += "org.mockito" % "mockito-all" % "1.10.19" % "test"
 
 routesGenerator := InjectedRoutesGenerator

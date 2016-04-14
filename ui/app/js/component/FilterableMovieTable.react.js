@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import SearchActions from './../action/SearchActions';
-import SearchStore from './../store/SearchStore';
+import SearchActions from 'action/SearchActions';
+import SearchStore from 'store/SearchStore';
 
 const FilterableMovieTable = React.createClass({
   onChange() {
@@ -41,18 +42,18 @@ const FilterableMovieTable = React.createClass({
 
 const SearchBar = React.createClass({
   forChildrenCheckboxChanged() {
-    const forChildren = React.findDOMNode(this.refs.ForChildrenInput).checked;
+    const forChildren = ReactDOM.findDOMNode(this.refs.ForChildrenInput).checked;
     SearchActions.toggleMoviesForChildren(forChildren);
   },
   searchTextChanged() {
-    const searchText = React.findDOMNode(this.refs.SearchInput).value;
+    const searchText = ReactDOM.findDOMNode(this.refs.SearchInput).value;
     SearchActions.changeSearchText(searchText);
   },
   render() {
     return (
       <div>
         <input type="text" placeholder="Search..." value={this.props.searchText} onChange={this.searchTextChanged} ref="SearchInput"/>
-        <p><input type="checkbox" checked={this.props.forChildren} onChange={this.forChildrenCheckboxChanged} ref="ForChildrenInput"/> Movie for children</p>
+        <p><label><input type="checkbox" checked={this.props.forChildren} onChange={this.forChildrenCheckboxChanged} ref="ForChildrenInput"/> Movie for children</label></p>
       </div>
     );
   }
