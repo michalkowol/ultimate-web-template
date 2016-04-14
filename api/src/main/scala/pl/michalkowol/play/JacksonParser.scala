@@ -40,6 +40,7 @@ object JacksonParser {
       case Failure(ex) => Left(UnprocessableEntity)
     }
   }
+
   def tolerantYamlAs[T: Manifest](implicit ec: ExecutionContext): BodyParser[T] = parse.tolerantText.validate { text =>
     val yaml = YamlUtil.fromYaml[T](text)
     yaml match {

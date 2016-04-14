@@ -6,21 +6,21 @@ import com.paypal.cascade.common.option._
 import pl.michalkowol.common.db._
 import pl.michalkowol.db.Movie
 import pl.michalkowol.db.anorm.{MPAAFilmRatings, Genres, Movies}
-import play.api.db.DB
+import play.api.db.Database
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class MoviesRepository(implicit ec: ExecutionContext) {
+class MoviesRepository(db: Database)(implicit ec: ExecutionContext) {
 
   private val parser = Movies.title ~ str("mpaa_film_rate") ~ str("genre") ~ Movies.id.? map flatten map Movie.tupled
 
-  def all: Future[Seq[Movie]] = DB.withAsyncConnection { implicit c =>
+  def all: Future[Seq[Movie]] = db.withAsyncConnection { implicit c =>
     // view used
     val sql = SQL"select id, title, genre, mpaa_film_rate from movies_flatten"
     sql.as(parser.*)
   }
 
-  def byId(id: Long): Future[Movie] = DB.withAsyncConnection { implicit c =>
+  def byId(id: Long): Future[Movie] = db.withAsyncConnection { implicit c =>
     val sql = SQL"select id, title, genre, mpaa_film_rate from movies_flatten where id = $id"
     sql.as(parser.single)
   }
@@ -48,7 +48,7 @@ class MoviesRepository(implicit ec: ExecutionContext) {
     on conflict (name) do update set name = g.name || excluded.name
     returning *;
   */
-  private def createGenre(name: String): Future[(Long, String)] = DB.withAsyncConnection { implicit c =>
+  private def createGenre(name: String): Future[(Long, String)] = db.withAsyncConnection { implicit c =>
     val sql =
       SQL"""
         with s as (
@@ -68,7 +68,7 @@ class MoviesRepository(implicit ec: ExecutionContext) {
     sql.as(Genres.genre.single)
   }
 
-  private def createRating(name: String): Future[(Long, String)] = DB.withAsyncConnection { implicit c =>
+  private def createRating(name: String): Future[(Long, String)] = db.withAsyncConnection { implicit c =>
     val sql =
       SQL"""
         with s as (
@@ -92,7 +92,7 @@ class MoviesRepository(implicit ec: ExecutionContext) {
     it will return id, title etc. after insert:
     insert into movies (title, mpaa_film_rate_id, genre_id) values ($title, $ratingId, $genreId) returning (id, title, mpaa_film_rate_id, genre_id)
   */
-  private def createMovie(title: String, genreId: Long, ratingId: Long): Future[Long] = DB.withAsyncConnection { implicit c =>
+  private def createMovie(title: String, genreId: Long, ratingId: Long): Future[Long] = db.withAsyncConnection { implicit c =>
     val sql = SQL"insert into movies (title, mpaa_film_rate_id, genre_id) values ($title, $ratingId, $genreId)"
     sql.executeInsert(SqlParser.scalar[Long].single)
   }
@@ -198,7 +198,7 @@ class MoviesRepository(implicit ec: ExecutionContext) {
     }
   }
 
-  def create(movie: Movie): Future[Movie] = DB.withAsyncConnection { implicit c =>
+  def create(movie: Movie): Future[Movie] = db.withAsyncConnection { implicit c =>
     val sql = SQL"select insert_movie(${movie.title}, ${movie.genre}, ${movie.mpaaFilmRate})"
     val movieId = sql.as(SqlParser.scalar[Long].single)
     movie.copy(id = movieId.some)
